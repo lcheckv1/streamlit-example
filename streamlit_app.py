@@ -113,24 +113,24 @@ if uploaded_file is not None:
         calctranslate.loc[len(calctranslate)] = row
         tempcalc=''
 
-datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
+    datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
+        
+    data = datasource['caption'].unique().tolist()
+    worksheets = datasource['worksheet'].unique().tolist()
+    dashboards = datasource['dashboard'].unique().tolist()
+    dataselect=st.sidebar.multiselect('Data',data)
+    worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
+    dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
     
-data = datasource['caption'].unique().tolist()
-worksheets = datasource['worksheet'].unique().tolist()
-dashboards = datasource['dashboard'].unique().tolist()
-dataselect=st.sidebar.multiselect('Data',data)
-worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
-dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
-
-filterdf=datasource
-filterdf=filterdf[["dashboard", "worksheet","caption","calculation_new"]]
-filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation_new": "Calc"})
-if len(dataselect)==0 and len(worksheetselect)==0 and len(dashboardselect)==0:
-    filterdf= filterdf[filterdf["Column"].isin(dataselect)]
-if len(dataselect)>0:
-    filterdf= filterdf[filterdf["Column"].isin(dataselect)]
-if len(worksheetselect)>0:
-    filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
-if len(dashboardselect)>0:
-    filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
-st.table(filterdf)
+    filterdf=datasource
+    filterdf=filterdf[["dashboard", "worksheet","caption","calculation_new"]]
+    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation_new": "Calc"})
+    if len(dataselect)==0 and len(worksheetselect)==0 and len(dashboardselect)==0:
+        filterdf= filterdf[filterdf["Column"].isin(dataselect)]
+    if len(dataselect)>0:
+        filterdf= filterdf[filterdf["Column"].isin(dataselect)]
+    if len(worksheetselect)>0:
+        filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
+    if len(dashboardselect)>0:
+        filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
+    st.table(filterdf)
