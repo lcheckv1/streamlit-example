@@ -99,6 +99,11 @@ if uploaded_file is not None:
     data = datasource['caption'].unique().tolist()
     worksheets = datasource['worksheet'].unique().tolist()
     dashboards = datasource['dashboard'].unique().tolist()
-    st.sidebar.multiselect('Data',data)
-    st.sidebar.multiselect('Worksheets',worksheets)
-    st.sidebar.multiselect('Dashboards',dashboards)
+    dataselect=st.sidebar.multiselect('Data',data)
+    worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
+    dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
+
+    filterdf= datasource[datasource["caption"].isin(dataselect)]
+    filterdf= filterdf[filterdf["worksheet"].isin(worksheetselect)]
+    filterdf= filterdf[filterdf["dashboard"].isin(dashboardselect)]
+    st.write(filterdf)
