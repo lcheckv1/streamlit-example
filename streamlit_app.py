@@ -102,6 +102,7 @@ if uploaded_file is not None:
     calctranslate=pd.DataFrame(columns=['oldcalc','calculation_new'])
     #print(df)
     columnname=df[['column','caption']]
+    columnname=columnname[columnname['column'].str.contains('[Calculation_')]            
     columnname=columnname.rename(columns={"column": "col", "caption": "cap"})
     for index,row in df.iterrows():
         tempcalc=(row['calculation'])
@@ -113,8 +114,10 @@ if uploaded_file is not None:
         calctranslate.loc[len(calctranslate)] = row
         tempcalc=''
 
+
     datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
-        
+    datasource=datasource.drop_duplicates()
+    
     data = datasource['caption'].unique().tolist()
     worksheets = datasource['worksheet'].unique().tolist()
     dashboards = datasource['dashboard'].unique().tolist()
