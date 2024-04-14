@@ -20,4 +20,5 @@ In the meantime, below is an example of what you can do with just a few lines of
 uploaded_file=st.file_uploader("Upload a .twb.", disabled=False, label_visibility="visible")
 if uploaded_file is not None:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-    st.write(stringio)
+    string_data = stringio.read()
+    st.write(string_data)
