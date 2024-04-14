@@ -105,7 +105,7 @@ if uploaded_file is not None:
 
     filterdf=datasource
     filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
-    filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
+    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
     if len(dataselect)>0 and len(worksheetselect)>0 and len(dashboardselect)>0:
         filterdf= filterdf[filterdf["Column"].isin(dataselect)]
     if len(dataselect)>0:
