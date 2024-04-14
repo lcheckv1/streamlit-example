@@ -96,7 +96,7 @@ if uploaded_file is not None:
     datasource=datasource.merge(dashData, on='worksheet',how='left')
     #st.write(datasource)
 
-    data = datasource['datname'].unique().tolist()
+    data = datasource['column'].unique().tolist()
     worksheets = datasource['worksheet'].unique().tolist()
     dashboards = datasource['dashboard'].unique().tolist()
     st.sidebar.multiselect('Data',data)
