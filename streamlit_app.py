@@ -6,13 +6,10 @@ from io import StringIO
 import xml.etree.ElementTree as et
 
 """
-# Welcome to Streamlit!
+# Tableau Analyzer
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
-
-In the meantime, below is an example of what you can do with just a few lines of code:
+Please select a .twb file to upload, then select data columns, worksheets, or dashboards on the left.
+A table will appear telling you where selected columns appear as a data dependency within each worksheet or dashboard.
 """
 
 
