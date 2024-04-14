@@ -23,6 +23,6 @@ uploaded_file=st.file_uploader("Upload a .twb.", disabled=False, label_visibilit
 if uploaded_file is not None:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
     string_data = stringio.read()
-    tree=et.fromstring(string_data)
-    root=tree.getroot()
-    st.write(string_data)
+    root=et.fromstring(string_data)
+    for a in root:
+        st.write(a.tag)
