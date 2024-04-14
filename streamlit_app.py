@@ -104,10 +104,10 @@ if uploaded_file is not None:
     dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
 
     filterdf=datasource
-    if len(dataselect()>0:
+    if len(dataselect)>0:
         filterdf= filterdf[filterdf["caption"].isin(dataselect)]
-    if len(worksheetselect()>0:
+    if len(worksheetselect)>0:
         filterdf= filterdf[filterdf["worksheet"].isin(worksheetselect)]
-    if len(dashboardselect()>0:
+    if len(dashboardselect)>0:
         filterdf= filterdf[filterdf["dashboard"].isin(dashboardselect)]
     st.write(filterdf)
