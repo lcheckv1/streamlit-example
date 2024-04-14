@@ -117,7 +117,7 @@ datasource=datasource.merge(calctranslate,left_on='calculation',right_on='calcul
     
 data = datasource['caption'].unique().tolist()
 worksheets = datasource['worksheet'].unique().tolist()
-dashboards = datasource['dashboard_new'].unique().tolist()
+dashboards = datasource['dashboard'].unique().tolist()
 dataselect=st.sidebar.multiselect('Data',data)
 worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
 dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
