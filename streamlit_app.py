@@ -1,3 +1,7 @@
+#do a drill-down of each calculation to show the supporting calculations
+#replace the calc field to use the caption and not the name
+
+
 import altair as alt
 import numpy as np
 import pandas as pd
@@ -10,6 +14,7 @@ import xml.etree.ElementTree as et
 
 Please select a .twb file to upload, then select data columns, worksheets, or dashboards on the left.
 A table will appear telling you where selected columns appear as a data dependency within each worksheet or dashboard.
+
 """
 
 
@@ -93,22 +98,39 @@ if uploaded_file is not None:
     datasource=datasource.merge(dashData, on='worksheet',how='left')
     #st.write(datasource)
 
-    data = datasource['caption'].unique().tolist()
-    worksheets = datasource['worksheet'].unique().tolist()
-    dashboards = datasource['dashboard'].unique().tolist()
-    dataselect=st.sidebar.multiselect('Data',data)
-    worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
-    dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
+    df=columnData
+    calctranslate=pd.DataFrame(columns=['oldcalc','calculation_new'])
+    #print(df)
+    columnname=df[['column','caption']]
+    columnname=columnname.rename(columns={"column": "col", "caption": "cap"})
+    for index,row in df.iterrows():
+        tempcalc=(row['calculation'])
+        newcalc=tempcalc
+        for index,row in columnname.iterrows():
+            if row['col'].startswith('[Calculation_'):
+                newcalc = newcalc.replace(row['col'], '['+row['cap']+']')
+        row=[tempcalc,newcalc]
+        calctranslate.loc[len(calctranslate)] = row
+        tempcalc=''
 
-    filterdf=datasource
-    filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
-    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
-    if len(dataselect)>0 and len(worksheetselect)>0 and len(dashboardselect)>0:
-        filterdf= filterdf[filterdf["Column"].isin(dataselect)]
-    if len(dataselect)>0:
-        filterdf= filterdf[filterdf["Column"].isin(dataselect)]
-    if len(worksheetselect)>0:
-        filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
-    if len(dashboardselect)>0:
-        filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
-    st.table(filterdf)
+datasource=datasource.merge(calctranslate,left_on='calculation',right_on='calculation_new',how='left')
+    
+data = datasource['caption'].unique().tolist()
+worksheets = datasource['worksheet'].unique().tolist()
+dashboards = datasource['dashboard_new'].unique().tolist()
+dataselect=st.sidebar.multiselect('Data',data)
+worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
+dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
+
+filterdf=datasource
+filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
+filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
+if len(dataselect)>0 and len(worksheetselect)>0 and len(dashboardselect)>0:
+    filterdf= filterdf[filterdf["Column"].isin(dataselect)]
+if len(dataselect)>0:
+    filterdf= filterdf[filterdf["Column"].isin(dataselect)]
+if len(worksheetselect)>0:
+    filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
+if len(dashboardselect)>0:
+    filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
+st.table(filterdf)
