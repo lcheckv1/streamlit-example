@@ -102,7 +102,7 @@ if uploaded_file is not None:
     calctranslate=pd.DataFrame(columns=['oldcalc','calculation_new'])
     #print(df)
     columnname=df[['column','caption']]
-    columnname=columnname[columnname['column'].str.contains('[Calculation_')]            
+    columnname=columnname[columnname['column'].apply(lambda x: x.startswith('[Calculation_'))]         
     columnname=columnname.rename(columns={"column": "col", "caption": "cap"})
     for index,row in df.iterrows():
         tempcalc=(row['calculation'])
