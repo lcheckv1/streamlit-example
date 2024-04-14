@@ -24,5 +24,71 @@ if uploaded_file is not None:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
     string_data = stringio.read()
     root=et.fromstring(string_data)
+    #flow for worksheets
+
+    datname=''
+    calc=''
+    caption=''
+    columnData=pd.DataFrame(columns=['column','calculation','caption'])
     for a in root:
-        st.write(a.tag)
+        for b in a:
+            for c in b:
+                if c.tag=='column':
+                    try:
+                        caption=c.attrib['caption']
+                    except:
+                        caption=''
+                    datname=c.attrib['name']
+                    for d in c:
+                        if d.tag=='calculation':
+                            try:
+                                calc=d.attrib['formula']
+                            except:
+                                calc=''
+                if datname!='':
+                    #datarow=pd.DataFrame(data={'column': [datname], 'calcluation': [calc]})
+                    columnData=columnData.append({'column': datname, 'calculation': calc,'caption':caption},ignore_index=True)
+                    datname=''
+                    calc=''
+    
+    
+    #flow for worksheets
+    
+    sheetname=''
+    dataname=''
+    worksheetData=pd.DataFrame(columns=['worksheet','column'])
+    for a in root:
+        for b in a:
+            for c in b:
+                for d in c:
+                    for e in d:
+                        for f in e:
+                            if b.tag=='worksheet':
+                                sheetname=b.attrib['name']
+                            if e.tag=='datasource-dependencies' and f.tag=='column':
+                                dataname=f.attrib['name']
+                            if sheetname!='' and dataname!='':
+                                worksheetData=worksheetData.append({'worksheet': sheetname, 'column': dataname},ignore_index=True)
+                            sheetname=''
+                            dataname=''
+    
+    
+    
+    #flow for dashboards
+    dashboard=''
+    worksheet=''
+    dashData=pd.DataFrame(columns=['dashboard','worksheet'])
+    for a in root:
+        for b in a:
+            for c in b:
+                for d in c:
+                    if b.tag=='window' and b.attrib['class']=='dashboard' and d.tag=='viewpoint':
+                        dashboard=b.attrib['name']
+                        worksheet=d.attrib['name']
+                        dashData=dashData.append({'dashboard': dashboard, 'worksheet': worksheet},ignore_index=True)
+                        dashboard=''
+                        worksheet=''
+    
+    datasource=columnData.merge(worksheetData,on='column',how='left')
+    datasource=datasource.merge(dashData, on='worksheet',how='left')
+    st.write(datasource)
