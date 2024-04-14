@@ -113,7 +113,7 @@ if uploaded_file is not None:
         calctranslate.loc[len(calctranslate)] = row
         tempcalc=''
 
-datasource=datasource.merge(calctranslate,left_on='calculation',right_on='calculation_new',how='left')
+datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
     
 data = datasource['caption'].unique().tolist()
 worksheets = datasource['worksheet'].unique().tolist()
