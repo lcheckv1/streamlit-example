@@ -49,7 +49,6 @@ if uploaded_file is not None:
                     #datarow=pd.DataFrame(data={'column': [datname], 'calcluation': [calc]})
                     new_index = len(columnData)
                     columnData.loc[new_index] = {'column': datname, 'calculation': calc,'caption':caption}
-                    print(columndata)
                     datname=''
                     calc=''
     
@@ -70,7 +69,8 @@ if uploaded_file is not None:
                             if e.tag=='datasource-dependencies' and f.tag=='column':
                                 dataname=f.attrib['name']
                             if sheetname!='' and dataname!='':
-                                worksheetData=worksheetData.append({'worksheet': sheetname, 'column': dataname},ignore_index=True)
+                                new_index = len(worksheetData)
+                                worksheetData.loc[new_index] = {'worksheet': sheetname, 'column': dataname}
                             sheetname=''
                             dataname=''
     
@@ -87,7 +87,8 @@ if uploaded_file is not None:
                     if b.tag=='window' and b.attrib['class']=='dashboard' and d.tag=='viewpoint':
                         dashboard=b.attrib['name']
                         worksheet=d.attrib['name']
-                        dashData=dashData.append({'dashboard': dashboard, 'worksheet': worksheet},ignore_index=True)
+                        new_index = len(dashData)
+                        dashData.loc[new_index] = {'dashboard': dashboard, 'worksheet': worksheet}
                         dashboard=''
                         worksheet=''
     
