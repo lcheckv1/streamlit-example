@@ -109,7 +109,7 @@ if uploaded_file is not None:
     if len(dataselect)>0 and len(worksheetselect)>0 and len(dashboardselect)>0:
         filterdf= filterdf[filterdf["Column"].isin(dataselect)]
     if len(dataselect)>0:
-        filterdf= filterdf[filterdf["Calc"].isin(dataselect)]
+        filterdf= filterdf[filterdf["Column"].isin(dataselect)]
     if len(worksheetselect)>0:
         filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
     if len(dashboardselect)>0:
