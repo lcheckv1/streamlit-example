@@ -22,7 +22,9 @@ A table will appear telling you where selected columns appear as a data dependen
 
 
 uploaded_file=st.file_uploader("Upload a .twb.", disabled=False, label_visibility="visible")
-if uploaded_file is not None:
+counter=0
+if uploaded_file is not None and counter==0:
+    counter+=1
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
     string_data = stringio.read()
     root=et.fromstring(string_data)
@@ -117,7 +119,8 @@ if uploaded_file is not None:
 
     datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
     datasource=datasource.drop_duplicates()
-    
+
+if uploaded_file is not None and counter>0:
     data = datasource['caption'].unique().tolist()
     worksheets = datasource['worksheet'].unique().tolist()
     dashboards = datasource['dashboard'].unique().tolist()
