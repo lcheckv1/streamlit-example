@@ -47,7 +47,9 @@ if uploaded_file is not None:
                                 calc=''
                 if datname!='':
                     #datarow=pd.DataFrame(data={'column': [datname], 'calcluation': [calc]})
-                    columnData=columnData.append({'column': datname, 'calculation': calc,'caption':caption},ignore_index=True)
+                    new_index = len(columnData)
+                    columnData.loc[new_index] = {'column': datname, 'calculation': calc,'caption':caption}
+                    print(columndata)
                     datname=''
                     calc=''
     
