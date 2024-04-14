@@ -123,8 +123,8 @@ worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
 dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
 
 filterdf=datasource
-filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
-filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
+filterdf=filterdf[["dashboard", "worksheet","caption","calculation_new"]]
+filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation_new": "Calc"})
 if len(dataselect)>0 and len(worksheetselect)>0 and len(dashboardselect)>0:
     filterdf= filterdf[filterdf["Column"].isin(dataselect)]
 if len(dataselect)>0:
