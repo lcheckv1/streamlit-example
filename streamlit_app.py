@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from io import StringIO
+import xml.etree.ElementTree as et
 
 """
 # Welcome to Streamlit!
@@ -23,3 +24,5 @@ if uploaded_file is not None:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
     string_data = stringio.read()
     st.write(string_data)
+    tree=et.parse(string_data)
+    root=tree.getroot()
