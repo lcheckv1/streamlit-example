@@ -126,4 +126,5 @@ if uploaded_file is not None and counter>0:
         filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
     filterdf=filterdf.sort_values(by=['Dashboard','Worksheet','Column'])
     filterdf=filterdf.drop_duplicates()             
-    st.table(filterdf)
+    st.table(filterdf.hide_index=True)
+
