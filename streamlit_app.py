@@ -100,25 +100,7 @@ if uploaded_file is not None and counter==0:
     datasource=datasource.merge(dashData, on='worksheet',how='left')
     #st.write(datasource)
 
-    df=columnData
-    calctranslate=pd.DataFrame(columns=['oldcalc','calculation_new'])
-    #print(df)
-    columnname=df[['column','caption']]
-    columnname=columnname[columnname['column'].apply(lambda x: x.startswith('[Calculation_'))]         
-    columnname=columnname.rename(columns={"column": "col", "caption": "cap"})
-    for index,row in df.iterrows():
-        tempcalc=(row['calculation'])
-        newcalc=tempcalc
-        for index,row in columnname.iterrows():
-            if row['col'].startswith('[Calculation_'):
-                newcalc = newcalc.replace(row['col'], '['+row['cap']+']')
-        row=[tempcalc,newcalc]
-        calctranslate.loc[len(calctranslate)] = row
-        tempcalc=''
 
-
-    datasource=datasource.merge(calctranslate,left_on='calculation',right_on='oldcalc',how='left')
-    datasource=datasource.drop_duplicates()
 
 if uploaded_file is not None and counter>0:
     data = datasource['caption'].unique().tolist()
@@ -130,7 +112,7 @@ if uploaded_file is not None and counter>0:
     
     filterdf=datasource
     filterdf=filterdf[["dashboard", "worksheet","caption","calculation_new"]]
-    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation_new": "Calc"})
+    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
     if len(dataselect)==0 and len(worksheetselect)==0 and len(dashboardselect)==0:
         filterdf= filterdf[filterdf["Column"].isin(dataselect)]
     if len(dataselect)>0:
