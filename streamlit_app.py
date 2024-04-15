@@ -17,14 +17,8 @@ A table will appear telling you where selected columns appear as a data dependen
 
 """
 
-
-
-
-
 uploaded_file=st.file_uploader("Upload a .twb.", disabled=False, label_visibility="visible")
-counter=0
-if uploaded_file is not None and counter==0:
-    counter+=1
+if uploaded_file is not None:
     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
     string_data = stringio.read()
     root=et.fromstring(string_data)
