@@ -113,8 +113,8 @@ if uploaded_file is not None and counter>0:
     dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
 
     filterdf=datasource
-    filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
-    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
+    filterdf=filterdf[["dashboard", "worksheet","caption"]]
+    filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column"})
 
     if len(dataselect)==0 and len(worksheetselect)==0 and len(dashboardselect)==0:
         filterdf= filterdf[filterdf["Column"].isin(dataselect)]
@@ -125,5 +125,5 @@ if uploaded_file is not None and counter>0:
     if len(dashboardselect)>0:
         filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
     filterdf=filterdf.sort_values(by=['Dashboard','Worksheet','Column'])
-                            
+    filterdf=filterdf.drop_duplicates()             
     st.table(filterdf)
