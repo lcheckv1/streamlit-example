@@ -107,7 +107,6 @@ if uploaded_file is not None and counter>0:
     data = dropdownData['caption'].unique().tolist()
     data=sorted(data)
     worksheets = dropdownData['worksheet'].unique().tolist()
-    worksheets=sorted(worksheets)
     dashboards = dropdownData['dashboard'].unique().tolist()
     dashboards=sorted(dashboards)
     dataselect=st.sidebar.multiselect('Data Columns',data)
