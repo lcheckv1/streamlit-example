@@ -124,4 +124,6 @@ if uploaded_file is not None and counter>0:
         filterdf= filterdf[filterdf["Worksheet"].isin(worksheetselect)]
     if len(dashboardselect)>0:
         filterdf= filterdf[filterdf["Dashboard"].isin(dashboardselect)]
+    filterdf=filterdf.sort_values(by=['Dashboard','Worksheet','Column'])
+                            
     st.table(filterdf)
