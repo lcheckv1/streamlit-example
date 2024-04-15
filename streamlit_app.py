@@ -106,11 +106,12 @@ if uploaded_file is not None and counter>0:
     data = datasource['caption'].unique().tolist()
     worksheets = datasource['worksheet'].unique().tolist()
     dashboards = datasource['dashboard'].unique().tolist()
-    dataselect=st.sidebar.multiselect('Data',data)
+    dataselect=st.sidebar.multiselect('Data Columns',data)
     worksheetselect=st.sidebar.multiselect('Worksheets',worksheets)
     dashboardselect=st.sidebar.multiselect('Dashboards',dashboards)
-    
+    freetextfilter=st.text_input('Search for Data Columns')
     filterdf=datasource
+    filterdf= filterdf[filterdf["Column"].isin(freetextfilter)]
     filterdf=filterdf[["dashboard", "worksheet","caption","calculation"]]
     filterdf=filterdf.rename(columns={"dashboard": "Dashboard", "worksheet": "Worksheet","caption": "Column","calculation": "Calc"})
     if len(dataselect)==0 and len(worksheetselect)==0 and len(dashboardselect)==0:
