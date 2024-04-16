@@ -96,7 +96,7 @@ if uploaded_file is not None:
 
 
 
-if uploaded_file is not None and counter>0:
+if uploaded_file is not None:
     dropdownData= datasource
     data = dropdownData['caption'].unique().tolist()
     data=sorted(data)
